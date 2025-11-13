@@ -59,6 +59,7 @@ void pageit(Pentry q[MAXPROCESSES]) {
 				if (q[j].pages[i] == 0) { continue; }
 
 				if (timestamps[j][i] < lru) {
+					lru_proc = j;
 					lru = i;
 				}
 			}
