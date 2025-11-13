@@ -34,16 +34,17 @@ void pageit(Pentry q[MAXPROCESSES]) {
     //fprintf(stderr, "pager-predict not yet implemented. Exiting...\n");
     //exit(EXIT_FAILURE);
 
-    for (int proc = 0; proc < MAXPROCESSES; proc++) {
+	for (int proc = 0; proc < MAXPROCESSES; proc++) {
 
 		if (!q[proc].active) continue;
 
 		int pc = q[proc].pc;
 		int page = pc/PAGESIZE;
 
+		timestamps[proc][page] = tick;
+
 		if (q[proc].pages[page]) { continue; }
 		if (pagein(proc, page)) {
-			timestamps[proc][page] = tick;
 			continue;
 		}
 
@@ -65,3 +66,31 @@ void pageit(Pentry q[MAXPROCESSES]) {
     /* advance time for next pageit iteration */
     tick++;
 } 
+
+//Working LRU Implementation
+//    for (int proc = 0; proc < MAXPROCESSES; proc++) {
+//
+// 	if (!q[proc].active) continue;
+//
+// 	int pc = q[proc].pc;
+// 	int page = pc/PAGESIZE;
+//
+// 	if (q[proc].pages[page]) { continue; }
+// 	if (pagein(proc, page)) {
+// 		timestamps[proc][page] = tick;
+// 		continue;
+// 	}
+//
+// 	int lru = tick;
+// 	for (int i = 0; i < MAXPROCPAGES; i++) {
+// 		if (q[proc].pages[i] == page) { continue; }
+// 		if (q[proc].pages[i] == 0) { continue; }
+//
+// 		if (timestamps[proc][i] < lru) {
+// 			lru = i;
+// 		}
+// 	}
+//
+// 	pageout(proc, lru);
+//
+// }
