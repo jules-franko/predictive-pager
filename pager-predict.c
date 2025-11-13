@@ -44,7 +44,7 @@ void pageit(Pentry q[MAXPROCESSES]) {
 		if (q[proc].pages[page]) { continue; }
 		if (pagein(proc, page)) {
 			timestamps[proc][page] = tick;
-			break;
+			continue;
 		}
 
 		int lru = 0;
