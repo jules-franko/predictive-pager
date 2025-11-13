@@ -47,7 +47,7 @@ void pageit(Pentry q[MAXPROCESSES]) {
 			continue;
 		}
 
-		int lru = 0;
+		int lru = tick;
 		for (int i = 0; i < MAXPROCPAGES; i++) {
 			if (q[proc].pages[i] == page) { continue; }
 			if (q[proc].pages[i] == 0) { continue; }
