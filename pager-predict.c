@@ -52,7 +52,7 @@ void pageit(Pentry q[MAXPROCESSES]) {
 			if (q[proc].pages[i] == page) { continue; }
 			if (q[proc].pages[i] == 0) { continue; }
 
-			if (timestamps[proc][i] < timestamps[proc][lru]) {
+			if (timestamps[proc][i] < lru) {
 				lru = i;
 			}
 		}
