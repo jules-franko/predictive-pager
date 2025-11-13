@@ -23,7 +23,7 @@ void pageit(Pentry q[MAXPROCESSES]) {
 
     if (!initialized) {
 		for (int proc=0; proc < MAXPROCESSES; proc++) {
-			for (page=0; page < MAXPROCPAGES; page++) {
+			for (int page=0; page < MAXPROCPAGES; page++) {
 				timestamps[proc][page] = 0;
 			}
 		}
