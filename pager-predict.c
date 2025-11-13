@@ -30,13 +30,13 @@ void pageit(Pentry q[MAXPROCESSES]) {
     for (int proc = 0; proc < MAXPROCESSES; proc++) {
 		
 		int pc = q[proc].pc;
-		int page = pc/PAGE_SIZE;
+		int page = pc/PAGESIZE;
 
 		if (q[proc].pages[page]) {
 				//Page is in!
 				break;
 		}
-		if (pagein(q[proc], page)) {
+		if (pagein(proc, page)) {
 				//Swapped in success
 				break;
 		}
