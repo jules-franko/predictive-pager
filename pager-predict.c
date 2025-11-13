@@ -50,7 +50,7 @@ void pageit(Pentry q[MAXPROCESSES]) {
 				break;
 			}
 
-			pageout(q[proc], i);
+			pageout(proc, i);
 		}
 	}
 
