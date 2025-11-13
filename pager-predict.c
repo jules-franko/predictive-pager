@@ -13,46 +13,52 @@ void pageit(Pentry q[MAXPROCESSES]) {
     static int tick = 1; // artificial time
     
     /* Local vars */
-    
+    static int timestamps[MAXPROCESSES][MAXPROCPAGES];
 
     /* initialize static vars on first run */
-    if(!initialized){
-	/* Init complex static vars here */
-	
-	initialized = 1;
-    }
+ //    if(!initialized){
+	// /* Init complex static vars here */
+	// initialized = 1;
+ //    }
+
+    if (!initialized) {
+		for (proc=0; proc < MAXPROCESSES; proc++) {
+			for (page=0; page < MAXPROCPAGES; page++) {
+				timestamps[proc][page] = 0;
+			}
+		}
+		initialized = 1;
+	}
     
     /* TODO: Implement Predictive Paging */
     //fprintf(stderr, "pager-predict not yet implemented. Exiting...\n");
     //exit(EXIT_FAILURE);
 
-	//My Implementation Starts Here LRU Pager
     for (int proc = 0; proc < MAXPROCESSES; proc++) {
-		
+
 		int pc = q[proc].pc;
 		int page = pc/PAGESIZE;
 
-		if (q[proc].pages[page]) {
-				//Page is in!
-				break;
-		}
+		if (q[proc].pages[page]) { break; }
 		if (pagein(proc, page)) {
-				//Swapped in success
-				break;
+			timestamps[proc][page] = tick;
+			break;
 		}
 
-		//Evict a page
+		int lru = 0;
 		for (int i = 0; i < MAXPROCPAGES; i++) {
-			if (q[proc].pages[i] == page) {
-				break;
-			}
-			if (q[proc].pages[i] == 0) {
-				break;
-			}
+			if (q[proc].pages[i] == page) { break; }
+			if (q[proc].pages[i] == 0) { break; }
 
-			pageout(proc, i);
+			if (timestamps[proc][i] < timestamps[proc][lru]) {
+				lru = i;
+			}
 		}
+
+		pageout(proc, lru);
+
 	}
+
 
     /* advance time for next pageit iteration */
     tick++;
