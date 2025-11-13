@@ -57,6 +57,7 @@ void pageit(Pentry q[MAXPROCESSES]) {
 
 			for (int i = 0; i < MAXPROCPAGES; i++) {
 				// if (q[proc].pages[i] == page) { continue; }
+				if (j == proc && i == page) continue; )
 				if (q[j].pages[i] == 0) { continue; }
 
 				if (timestamps[j][i] < oldest_time) {
