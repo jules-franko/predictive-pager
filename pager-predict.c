@@ -36,13 +36,15 @@ void pageit(Pentry q[MAXPROCESSES]) {
 
     for (int proc = 0; proc < MAXPROCESSES; proc++) {
 
+		if (!q[proc].active) continue;
+
 		int pc = q[proc].pc;
 		int page = pc/PAGESIZE;
 
 		if (q[proc].pages[page]) { continue; }
 		if (pagein(proc, page)) {
 			timestamps[proc][page] = tick;
-			continue;
+			break;
 		}
 
 		int lru = 0;
