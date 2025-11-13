@@ -39,7 +39,7 @@ void pageit(Pentry q[MAXPROCESSES]) {
 		int pc = q[proc].pc;
 		int page = pc/PAGESIZE;
 
-		if (q[proc].pages[page]) { break; }
+		if (q[proc].pages[page]) { continue; }
 		if (pagein(proc, page)) {
 			timestamps[proc][page] = tick;
 			break;
@@ -47,8 +47,8 @@ void pageit(Pentry q[MAXPROCESSES]) {
 
 		int lru = 0;
 		for (int i = 0; i < MAXPROCPAGES; i++) {
-			if (q[proc].pages[i] == page) { break; }
-			if (q[proc].pages[i] == 0) { break; }
+			if (q[proc].pages[i] == page) { continue; }
+			if (q[proc].pages[i] == 0) { continue; }
 
 			if (timestamps[proc][i] < timestamps[proc][lru]) {
 				lru = i;
