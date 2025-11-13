@@ -23,8 +23,36 @@ void pageit(Pentry q[MAXPROCESSES]) {
     }
     
     /* TODO: Implement Predictive Paging */
-    fprintf(stderr, "pager-predict not yet implemented. Exiting...\n");
-    exit(EXIT_FAILURE);
+    //fprintf(stderr, "pager-predict not yet implemented. Exiting...\n");
+    //exit(EXIT_FAILURE);
+
+	//My Implementation Starts Here LRU Pager
+    for (int proc = 0; proc < MAXPROCESSES; proc++) {
+		
+		int pc = q[proc].pc;
+		int page = pc/PAGE_SIZE;
+
+		if (q[proc].pages[page]) {
+				//Page is in!
+				break;
+		}
+		if (pagein(q[proc], page)) {
+				//Swapped in success
+				break;
+		}
+
+		//Evict a page
+		for (int i = 0; i < MAXPROCPAGES; i++) {
+			if (q[proc].pages[i] == page) {
+				break;
+			}
+			if (q[proc].pages[i] == 0) {
+				break;
+			}
+
+			pageout(q[proc], i);
+		}
+	}
 
     /* advance time for next pageit iteration */
     tick++;
