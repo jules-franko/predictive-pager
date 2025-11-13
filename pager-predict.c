@@ -48,17 +48,23 @@ void pageit(Pentry q[MAXPROCESSES]) {
 			continue;
 		}
 
+		int lru_proc = 0;
 		int lru = tick;
-		for (int i = 0; i < MAXPROCPAGES; i++) {
-			if (q[proc].pages[i] == page) { continue; }
-			if (q[proc].pages[i] == 0) { continue; }
+		for (int j = 0; j < MAXPROCESSES; j++) {
 
-			if (timestamps[proc][i] < lru) {
-				lru = i;
+			if (!q[j].active) { continue; }
+
+			for (int i = 0; i < MAXPROCPAGES; i++) {
+				if (q[j].pages[i] == page) { continue; }
+				if (q[j].pages[i] == 0) { continue; }
+
+				if (timestamps[j][i] < lru) {
+					lru = i;
+				}
 			}
 		}
 
-		pageout(proc, lru);
+		pageout(lru_proc, lru);
 
 	}
 
@@ -67,17 +73,17 @@ void pageit(Pentry q[MAXPROCESSES]) {
     tick++;
 } 
 
-//Working LRU Implementation
-//    for (int proc = 0; proc < MAXPROCESSES; proc++) {
+// for (int proc = 0; proc < MAXPROCESSES; proc++) {
 //
 // 	if (!q[proc].active) continue;
 //
 // 	int pc = q[proc].pc;
 // 	int page = pc/PAGESIZE;
 //
+// 	timestamps[proc][page] = tick;
+//
 // 	if (q[proc].pages[page]) { continue; }
 // 	if (pagein(proc, page)) {
-// 		timestamps[proc][page] = tick;
 // 		continue;
 // 	}
 //
