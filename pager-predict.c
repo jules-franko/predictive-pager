@@ -60,7 +60,7 @@ void pageit(Pentry q[MAXPROCESSES]) {
 				if (q[j].pages[i] == 0) { continue; }
 
 				if (timestamps[j][i] < oldest_time) {
-					oldest = timestamps[j][i];
+					oldest_time = timestamps[j][i];
 					lru_proc = j;
 					lru_page = i;
 				}
