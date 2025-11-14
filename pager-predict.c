@@ -55,7 +55,7 @@ void pageit(Pentry q[MAXPROCESSES]) {
 				for (int i = 0; i < MAXPROCPAGES; i++) {
 
 					if (q[proc].pages[i] && i != page) {
-						if (timestamps[proc][i] < oldest_time) {
+						if (timestamps[proc][i] < oldest_tick) {
 							oldest_tick = timestamps[proc][i];
 							lru_page = i;
 						}
